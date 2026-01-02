@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-input: var(--input);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  /* Slate 900 */
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --input: #e2e8f0;
+  /* Slate 200 */
+
+  --primary: #0f172a;
+  /* Slate 900 (Deep Blue) */
+  --secondary: #f1f5f9;
+  /* Slate 100 */
+  --accent: #0ea5e9;
+  /* Sky 500 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #020617;
+    /* Slate 950 */
+    --foreground: #f8fafc;
+    /* Slate 50 */
+
+    --card: #1e293b;
+    /* Slate 800 */
+    --card-foreground: #f8fafc;
+
+    --input: #1e293b;
+    /* Slate 800 */
+
+    --primary: #0f172a;
+    /* Keep Primary Dark Blue for consistency or slightly lighter for visibility? 
+                           If bg-primary is used for footer with text-white, it MUST be dark. */
+    /* Actually, better to keep primary consistent as the Brand Color */
+    /* But if text-primary is used for headings, it needs to be visible on dark background. */
+    /* Conflict: bg-primary (needs dark) vs text-primary (needs light on dark bg). */
+    /* Solution: In dark mode, headings should normally be --foreground (white). */
+    /* Components using text-primary should switch to text-foreground or text-accent in dark mode. */
+    /* However, for now, let's keep primary dark, but ensure text uses foreground. */
+    /* WAIT: If I keep primary dark (#0f172a), then text-primary on dark background (#020617) is invisible. */
+    /* I should use a specific variable for 'primary-foreground' or just use 'white' for text on primary bg. */
+    /* For headings on the page background, use text-foreground. */
+
+    --primary: #38bdf8;
+    /* Update Primary to be Accent-like (Light Blue) in Dark Mode? 
+                           NO, because Footer uses bg-primary with text-white. 
+                           White text on Light Blue is hard to read. */
+
+    /* Let's Try: */
+    --primary: #0f172a;
+    /* Keep it dark. */
+    /* We need to ensure text-primary isn't used for main text on dark background. */
+    /* CardTitle uses text-primary. If primary is dark & card is dark -> Invisible. */
+
+    /* FIX: Let's redefine Primary for Dark Mode to be visible on dark, 
+       BUT we must handle bg-primary separately or accept it changes. */
+
+    /* Better approach for this code base: */
+    /* Keep Primary as the Brand Color. */
+    /* Add --primary-foreground. */
+  }
+
+  /* OVERRIDE for this specific issue: */
+  /* The simplest fix for "text-primary" being invisible in dark mode (if equal to dark blue) */
+  /* is to make primary light in dark mode, BUT change Footer to not rely on bg-primary 
+     or ensure Footer handles the color flip. */
+
+  /* Let's go with: */
+  :root {
+    --primary: #38bdf8;
+    /* Light Blue for dark mode so it pops? */
+    /* No, that changes the brand. */
+  }
+}
+
+/* RE-DOING THE STRATEGY CAREFULLY */
+:root {
+  --background: #ffffff;
+  --foreground: #020617;
+
+  --card: #ffffff;
+  --card-foreground: #020617;
+
+  --primary: #0f172a;
+  /* Deep Blue */
+  --secondary: #f1f5f9;
+  --accent: #0ea5e9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #020617;
+    --foreground: #f8fafc;
+
+    --card: #1e293b;
+    /* Dark Card */
+    --card-foreground: #f8fafc;
+    /* Light Text */
+
+    /* In dark mode, pure black/blue primary is bad for text. 
+       But great for background. 
+       Let's map --primary to a lighter blue for text? 
+       No, that breaks bg-primary components. 
+       
+       Let's keep --primary as #0f172a (Deep Blue). 
+       AND Fix CardTitle to use text-foreground instead of text-primary in dark mode 
+       OR make sure we use a different class. */
+
+    --primary: #e2e8f0;
+    /* Make primary whitish? No, Footer bg becomes white. */
+
+    /* Decided: Keep Primary Dark. Fix Footer & Cards. */
+    --primary: #0f172a;
+    --secondary: #1e293b;
+    --accent: #38bdf8;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+  /* Dark background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  /* Slate 700 */
+  border-radius: 5px;
+  border: 2px solid #020617;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+  /* Neon Blue on hover */
+}
+
+/* Futuristic Utilities */
+.text-glow {
+  text-shadow: 0 0 15px rgba(14, 165, 233, 0.5), 0 0 30px rgba(14, 165, 233, 0.2);
+}
+
+.box-glow {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+.animate-shine {
+  animation: shine 1.5s ease-in-out forwards;
+}
