@@ -16,26 +16,19 @@ export async function submitContactForm(data: ContactFormData) {
     // Simulate network delay for UX
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    console.log('--- NEW CONTACT FORM SUBMISSION ---');
-    console.log('To Admin: ssureshkxmar@gmail.com');
-    console.log('From:', data.name, `<${data.email}>`);
-    console.log('Phone:', data.phone);
-    console.log('Project:', data.subject, '|', data.budget, '|', data.timeline);
-    console.log('Message:', data.message);
-
     // 1. EMAIL SENDING LOGIC (Nodemailer)
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.GMAIL_USER, // Set this in .env.local
-            pass: process.env.GMAIL_APP_PASSWORD, // Set this in .env.local
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_APP_PASSWORD,
         },
     });
 
     const mailOptions = {
-        from: `"${data.name}" <${process.env.GMAIL_USER}>`, // Gmail requires 'from' to be the auth user or alias
+        from: `"${data.name}" <${process.env.GMAIL_USER}>`,
         to: 'ssureshkxmar@gmail.com',
-        replyTo: data.email, // Reply to the user's email
+        replyTo: data.email,
         subject: `New Inquiry: ${data.subject}`,
         text: `
       Name: ${data.name}
@@ -66,43 +59,25 @@ export async function submitContactForm(data: ContactFormData) {
     try {
         if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
             await transporter.sendMail(mailOptions);
-            console.log('✅ Email sent successfully via Nodemailer');
-        } else {
-            console.warn('⚠️ GMAIL_USER or GMAIL_APP_PASSWORD not set. Email not sent (Logged above).');
         }
     } catch (error) {
-        console.error('❌ Failed to send email:', error);
-        // We don't throw calculation error to client, we just log it. Client sees success.
+        // Silently handle error to not disrupt client experience
     }
 
     // 2. SMS SENDING LOGIC (Python Bridge)
-    // This executes the python script we created in src/scripts/send_sms.py
-    // Ensure you have: npm install python-shell or just use exec
     const { exec } = require('child_process');
     const path = require('path');
 
-    // Construct message for SMS (keep it short)
+    // Construct message for SMS
     const smsMessage = `New Inq:\n${data.name}\n${data.phone}\nSub: ${data.subject}\nBdgt: ${data.budget}`;
-    const adminPhone = '8925427760'; // The number you wanted
+    const adminPhone = '8925427760';
 
     const scriptPath = path.join(process.cwd(), 'src', 'scripts', 'send_sms.py');
-
-    // Need to verify python command exists (python or python3)
     const pythonCommand = 'python';
 
     exec(`${pythonCommand} "${scriptPath}" "${adminPhone}" "${smsMessage}"`, (error: any, stdout: string, stderr: string) => {
-        if (error) {
-            console.error(`❌ Python SMS Error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`⚠️ Python SMS Stderr: ${stderr}`);
-            return;
-        }
-        console.log(`✅ Python SMS Output: ${stdout.trim()}`);
+        // SMS sending happens in background
     });
-
-    console.log('-----------------------------------');
 
     return { success: true };
 }

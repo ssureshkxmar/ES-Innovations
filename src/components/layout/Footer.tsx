@@ -52,9 +52,6 @@ export function Footer() {
                     <p className="text-xs text-gray-400">
                         © {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.
                     </p>
-                    <p className="text-xs text-gray-500">
-                        Registered under the Companies Act, 2013, Govt. of India.
-                    </p>
                 </div>
             </div>
         </footer>

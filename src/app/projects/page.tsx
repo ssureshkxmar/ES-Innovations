@@ -1,31 +1,37 @@
 import { Section } from "@/components/ui/Section";
 import { GlowingCard } from "@/components/ui/GlowingCard";
+import Link from "next/link";
 
 const projects = [
     {
-        title: "Smart Home Automation System",
-        category: "IoT",
-        description: "A centralized control unit for home appliances using ESP32 and MQTT protocol with a mobile app interface."
+        title: "CardioVis Pro",
+        category: "HealthTech",
+        description: "Advanced cardiac visualization and analysis system offering real-time insights.",
+        link: "/projects/cardiovis-pro"
     },
     {
-        title: "Industrial Conveyor Controller",
+        title: "Smart Factories Energy Power Control",
         category: "Embedded",
-        description: "PLC-based automated conveyor system with sensor integration for a manufacturing client."
+        description: "PLC-based automated conveyor system with sensor integration for a manufacturing client.",
+        link: "/projects/smart-factories"
     },
     {
-        title: "University Management Portal",
-        category: "Web Dev",
-        description: "Student and faculty management system with attendance tracking and exam scheduling modules."
+        title: "Adaptive Cardiology Care",
+        category: "HealthTech",
+        description: "Advanced cardiac monitoring system with adaptive algorithms for real-time patient care optimization.",
+        link: "/projects/adaptive-cardiology"
     },
     {
-        title: "Face Recognition Attendance",
-        category: "AI",
-        description: "Python-based computer vision system to automate attendance in corporate offices using OpenCV."
+        title: "Movies Stream Finder",
+        category: "Web App",
+        description: "Intelligent streaming aggregator helping users find where to watch their favorite movies.",
+        link: "/projects/movies-stream-finder"
     },
     {
-        title: "E-Commerce Mobile App",
-        category: "Mobile",
-        description: "Cross-platform React Native app for a local retail chain with payment gateway integration."
+        title: "Personal Portfolio",
+        category: "Web",
+        description: "A showcase of my projects and skills, designed with a focus on aesthetics and user experience.",
+        link: "/projects/portfolio"
     }
 ];
 
@@ -58,7 +64,13 @@ export default function ProjectsPage() {
                                 {project.description}
                             </p>
                             <div className="mt-auto pt-4 flex items-center justify-end">
-                                <span className="text-xs text-gray-500 hover:text-white cursor-pointer transition-colors">View Details →</span>
+                                {project.link ? (
+                                    <Link href={project.link} className="text-xs text-gray-500 hover:text-white cursor-pointer transition-colors flex items-center gap-1 group">
+                                        View Details <span className="group-hover:translate-x-1 transition-transform">→</span>
+                                    </Link>
+                                ) : (
+                                    <span className="text-xs text-gray-500 cursor-not-allowed opacity-50">View Details →</span>
+                                )}
                             </div>
                         </GlowingCard>
                     ))}

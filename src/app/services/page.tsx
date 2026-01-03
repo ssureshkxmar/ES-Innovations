@@ -32,12 +32,6 @@ const services = [
         icon: <FileCode className="h-8 w-8 text-accent" />,
         description: "Custom software development for SMEs, including desktop applications and inventory management systems.",
         glow: "from-pink-500/20"
-    },
-    {
-        title: "Training & Internships",
-        icon: <GraduationCap className="h-8 w-8 text-accent" />,
-        description: "Industry-oriented training programs for engineering students, covering final year projects and skill development.",
-        glow: "from-orange-500/20"
     }
 ];
 
@@ -55,9 +49,7 @@ export default function ServicesPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (
                         <GlowingCard key={index} glowColor={service.glow} className="p-8 h-full flex flex-col items-start gap-4">
-                            <div className="p-3 rounded-lg bg-white/5 border border-white/10 box-glow">
-                                {service.icon}
-                            </div>
+                            {service.icon}
                             <h3 className="text-xl font-bold text-white">{service.title}</h3>
                             <p className="text-gray-300 leading-relaxed">
                                 {service.description}

@@ -29,15 +29,26 @@ export default function AboutPage() {
                     </div>
 
                     {/* Founder Section */}
-                    <div className="text-center pt-8">
-                        <h3 className="text-3xl font-bold text-white mb-2 tracking-wide">SURESHKUMAR S</h3>
-                        <p className="text-accent font-medium mb-6 uppercase tracking-widest text-sm">Founder</p>
-
-                        <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-white/10 max-w-sm mx-auto shadow-lg">
-                            <p className="text-base text-gray-300 italic font-light">
-                                "Innovation looks forward. We build the future today."
-                            </p>
+                    <div className="flex flex-col items-center pt-12">
+                        <div className="h-24 w-24 rounded-full bg-gradient-to-tr from-accent to-blue-500 p-[2px] mb-6">
+                            <div className="h-full w-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                                <span className="text-3xl font-bold text-white">SS</span>
+                            </div>
                         </div>
+                        <h3 className="text-2xl font-bold text-white mb-2 tracking-wide">SURESHKUMAR S</h3>
+                        <p className="text-accent font-medium text-sm uppercase tracking-widest mb-6">Founder & CEO</p>
+                        <div className="h-px w-12 bg-white/20 mb-6"></div>
+                        <p className="text-gray-300 text-center italic font-light text-sm leading-relaxed max-w-sm mb-8">
+                            "Innovation looks forward. We build the future today."
+                        </p>
+                        <a
+                            href="https://profilo-two-olive.vercel.app"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-accent hover:text-white transition-colors border-b border-accent hover:border-white pb-0.5"
+                        >
+                            View CEO Profile ↗
+                        </a>
                     </div>
                 </div>
             </Section>
