@@ -4,18 +4,26 @@ import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface MotionProps {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
     delay?: number;
+    direction?: "up" | "down" | "left" | "right";
 }
 
-export function FadeIn({ children, className, delay = 0 }: MotionProps) {
+export function FadeIn({ children, className, delay = 0, direction = "up" }: MotionProps) {
+    const directions = {
+        up: { y: 20, x: 0 },
+        down: { y: -20, x: 0 },
+        left: { x: 20, y: 0 },
+        right: { x: -20, y: 0 }
+    };
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, ...directions[direction] }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
             className={className}
         >
             {children}
@@ -50,8 +58,10 @@ export function ScaleOnHover({ children, className }: { children: ReactNode; cla
     );
 }
 
-export function TextReveal({ text, className }: { text: string; className?: string }) {
-    const words = text.split(" ");
+export function TextReveal({ text, children, className }: { text?: string; children?: string; className?: string }) {
+    const content = text || children || "";
+    const words = content.split(" ");
+    
     return (
         <span className={className}>
             {words.map((word, i) => (
@@ -60,7 +70,7 @@ export function TextReveal({ text, className }: { text: string; className?: stri
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    transition={{ duration: 0.5, delay: i * 0.05 }}
                     className="inline-block mr-2"
                 >
                     {word}
